@@ -89,8 +89,8 @@
                     <i class="fas fa-link fa-fw w-6"></i>
                     <span class="mx-3">Link Generator</span>
                 </a>
-                <a href="/voting" target="_blank"
-                    class="flex items-center px-4 py-2 mt-8 border-t border-slate-700 pt-4 text-gray-400 hover:bg-slate-700 hover:text-white rounded-md">
+                <a href="{{ route('voting.index') }}" target="_blank"
+                    class="flex items-center px-4 py-2 mt-8 border-t border-gray-700 pt-4 hover:bg-gray-700 rounded-lg">
                     <i class="fas fa-vote-yea fa-fw w-6"></i>
                     <span class="mx-3">Lihat Halaman Voting</span>
                 </a>
