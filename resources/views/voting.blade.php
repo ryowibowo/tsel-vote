@@ -81,7 +81,7 @@
                     </div>
                     <div>
                         <label for="nik" class="block text-sm font-medium mb-1">NIK:</label>
-                        <input type="text" id="nik" name="nik" placeholder="Masukkan NIK Anda" required
+                        <input type="number" id="nik" name="nik" placeholder="Masukkan NIK Anda" required
                             class="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-2 text-white">
                     </div>
                     <button type="submit"
@@ -91,24 +91,14 @@
         </section>
 
         <section id="votingSection" class="hidden w-full max-w-7xl mx-auto mt-8">
-            <div
-                class="flex justify-center items-center space-x-4 md:space-x-8 mb-6 p-3 bg-black/20 rounded-lg max-w-md mx-auto">
-                <div class="text-center">
-                    <div class="font-bold text-lg">TOKEN FIXED</div>
-                    <div id="fixedTokenCounter" class="text-2xl font-black">5</div>
-                </div>
-                <div class="border-l h-12 border-white/30"></div>
-                <div class="text-center">
-                    <div class="font-bold text-lg">TOKEN MOBILE</div>
-                    <div id="mobileTokenCounter" class="text-2xl font-black">5</div>
-                </div>
-            </div>
-
             <div class="flex flex-col md:flex-row md:space-x-6">
+
+                {{-- KOLOM KIRI (FIXED) --}}
                 <div class="flex-1 mb-8 md:mb-0">
                     <h2 class="text-xl font-bold text-center mb-4">FIXED</h2>
-                    <div id="fixedGrid" class="grid grid-cols-3 gap-4">
-                        @if ($fixedCategory)
+                    @if ($fixedCategory && $fixedCategory->products->isNotEmpty())
+                        {{-- UBAH GRID: Tambah grid-rows-4 biar barisnya dipaksa sama --}}
+                        <div class="grid grid-cols-3 grid-rows-4 gap-4">
                             @foreach ($fixedCategory->products as $product)
                                 <div data-id="{{ $product->id }}" data-category="fixed"
                                     class="vote-card bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 flex flex-col">
@@ -125,16 +115,18 @@
                                     </div>
                                 </div>
                             @endforeach
-                        @endif
-                    </div>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="hidden md:block border-l-2 border-white/30"></div>
 
+                {{-- KOLOM KANAN (MOBILE) --}}
                 <div class="flex-1">
                     <h2 class="text-xl font-bold text-center mb-4">MOBILE</h2>
-                    <div id="mobileGrid" class="grid grid-cols-3 gap-4">
-                        @if ($mobileCategory)
+                    @if ($mobileCategory && $mobileCategory->products->isNotEmpty())
+                        {{-- UBAH GRID: Tambah grid-rows-4 di sini juga --}}
+                        <div class="grid grid-cols-3 grid-rows-4 gap-4">
                             @foreach ($mobileCategory->products as $product)
                                 <div data-id="{{ $product->id }}" data-category="mobile"
                                     class="vote-card bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 flex flex-col">
@@ -151,13 +143,12 @@
                                     </div>
                                 </div>
                             @endforeach
-                        @endif
-                    </div>
+                        </div>
+                    @endif
                 </div>
             </div>
 
             <div class="mt-8 text-center">
-                {{-- DIUBAH DI SINI: ganti bg-green-* jadi bg-red-* --}}
                 <button id="finishVoteBtn"
                     class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-12 rounded-lg text-xl transition-all">
                     FINISH
