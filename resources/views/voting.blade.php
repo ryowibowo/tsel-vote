@@ -30,7 +30,7 @@
 
         @media (max-width: 767px) {
             body {
-                background-image: url('{{ asset('img/background-tablet.jpg') }}')
+                background-image: url('{{ asset('img/background-mobile.jpg') }}')
             }
         }
 
@@ -97,13 +97,14 @@
                 <div class="flex-1 mb-8 md:mb-0">
                     <h2 class="text-xl font-bold text-center mb-4">FIXED</h2>
                     @if ($fixedCategory && $fixedCategory->products->isNotEmpty())
-                        {{-- UBAH GRID: Tambah grid-rows-4 biar barisnya dipaksa sama --}}
-                        <div class="grid grid-cols-3 grid-rows-4 gap-4">
+                        <div id="fixedGrid" class="grid grid-cols-3 grid-rows-4 gap-4">
                             @foreach ($fixedCategory->products as $product)
                                 <div data-id="{{ $product->id }}" data-category="fixed"
                                     class="vote-card bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 flex flex-col">
                                     <div class="p-3 text-center flex-grow flex flex-col">
-                                        <div class="h-20 flex items-center justify-center mb-2 bg-white/10 rounded-lg">
+                                        {{-- UBAH DI SINI: frame gambar jadi putih --}}
+                                        <div
+                                            class="h-20 flex items-center justify-center mb-2 bg-white rounded-lg shadow-md">
                                             @if ($product->image)
                                                 <img src="{{ asset($product->image) }}"
                                                     class="max-h-16 max-w-full object-contain">
@@ -125,13 +126,14 @@
                 <div class="flex-1">
                     <h2 class="text-xl font-bold text-center mb-4">MOBILE</h2>
                     @if ($mobileCategory && $mobileCategory->products->isNotEmpty())
-                        {{-- UBAH GRID: Tambah grid-rows-4 di sini juga --}}
-                        <div class="grid grid-cols-3 grid-rows-4 gap-4">
+                        <div id="mobileGrid" class="grid grid-cols-3 grid-rows-4 gap-4">
                             @foreach ($mobileCategory->products as $product)
                                 <div data-id="{{ $product->id }}" data-category="mobile"
                                     class="vote-card bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 flex flex-col">
                                     <div class="p-3 text-center flex-grow flex flex-col">
-                                        <div class="h-20 flex items-center justify-center mb-2 bg-white/10 rounded-lg">
+                                        {{-- UBAH DI SINI: frame gambar jadi putih --}}
+                                        <div
+                                            class="h-20 flex items-center justify-center mb-2 bg-white rounded-lg shadow-md">
                                             @if ($product->image)
                                                 <img src="{{ asset($product->image) }}"
                                                     class="max-h-16 max-w-full object-contain">
@@ -164,10 +166,13 @@
                 <div
                     class="bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 p-8 md:p-12">
                     <h2 class="text-4xl font-black mb-4">THANK YOU</h2>
-                    <p class="text-lg mb-2">Terima kasih sudah memberikan vote anda, pilihan anda menentukan masa depan
-                        telkomsel</p>
-                    <p class="text-sm text-gray-300 mb-8">Thank you for your vote. Your choice will shape the future of
-                        Telkomsel</p>
+                    <p class="text-lg mb-2">
+                        Thank you for your vote. Your Choice will shape the future of telkomsel
+                    </p>
+                    <p class="text-sm text-gray-300 mb-8">
+                        After Voting, kindly keep this page or take screenshot, as it will be required to redem
+                        your souvenir. Please note that souvenirs are limited
+                    </p>
                     <button onclick="window.location.href = '{{ route('voting.index') }}'"
                         class="w-full bg-white/90 hover:bg-white text-red-600 font-bold py-3 px-8 rounded-lg text-xl transition-colors">
                         Finish
@@ -183,11 +188,13 @@
             thankYouSection = document.getElementById("thankYouSection"),
             mainHeader = document.getElementById("mainHeader"),
             loginForm = document.getElementById("loginForm"),
-            finishVoteBtn = document.getElementById("finishVoteBtn"),
-            fixedTokenCounter = document.getElementById("fixedTokenCounter"),
-            mobileTokenCounter = document.getElementById("mobileTokenCounter");
+            finishVoteBtn = document.getElementById("finishVoteBtn");
+        // Remove fixedTokenCounter and mobileTokenCounter if no longer used for display
+        // or re-declare them if they exist in a hidden way
+
         let selectedFixed = [],
             selectedMobile = [];
+
         async function checkNikAvailability(nik) {
             const t = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
             try {
@@ -297,8 +304,10 @@
         });
 
         function updateUI() {
-            fixedTokenCounter.textContent = 5 - selectedFixed.length;
-            mobileTokenCounter.textContent = 5 - selectedMobile.length;
+            // Ini akan error karena fixedTokenCounter dan mobileTokenCounter tidak didefinisikan atau dihapus.
+            // Jika counter tidak lagi ditampilkan, bagian ini bisa dihapus atau di-comment.
+            // fixedTokenCounter.textContent = 5 - selectedFixed.length;
+            // mobileTokenCounter.textContent = 5 - selectedMobile.length;
             document.querySelectorAll('#fixedGrid .vote-card').forEach(c => {
                 if (selectedFixed.length >= 5 && !selectedFixed.includes(c.dataset.id)) c.classList.add('maxed');
                 else c.classList.remove('maxed')
