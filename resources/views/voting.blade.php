@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -74,14 +74,15 @@
             <div class="glass-container p-8 rounded-2xl shadow-lg">
                 <form id="loginForm" class="space-y-6">
                     <div>
-                        <label for="fullName" class="block text-sm font-medium mb-1">Nama Lengkap:</label>
-                        <input type="text" id="fullName" name="fullName" placeholder="Masukkan nama lengkap"
+                        <label for="fullName" class="block text-sm font-medium mb-1">Full Name:</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Please enter your full name"
                             required
                             class="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-2 text-white">
                     </div>
                     <div>
-                        <label for="nik" class="block text-sm font-medium mb-1">NIK:</label>
-                        <input type="number" id="nik" name="nik" placeholder="Masukkan NIK Anda" required
+                        <label for="nik" class="block text-sm font-medium mb-1">Employee ID:</label>
+                        <input type="number" id="nik" name="nik" placeholder="Please enter your employee ID"
+                            required
                             class="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-2 text-white">
                     </div>
                     <button type="submit"
@@ -92,65 +93,54 @@
 
         <section id="votingSection" class="hidden w-full max-w-7xl mx-auto mt-8">
             <div class="flex flex-col md:flex-row md:space-x-6">
-
-                {{-- KOLOM KIRI (FIXED) --}}
                 <div class="flex-1 mb-8 md:mb-0">
                     <h2 class="text-xl font-bold text-center mb-4">FIXED</h2>
-                    @if ($fixedCategory && $fixedCategory->products->isNotEmpty())
-                        <div id="fixedGrid" class="grid grid-cols-3 grid-rows-4 gap-4">
+                    <div id="fixedGrid" class="grid grid-cols-3 gap-4">
+                        @if ($fixedCategory)
                             @foreach ($fixedCategory->products as $product)
                                 <div data-id="{{ $product->id }}" data-category="fixed"
-                                    class="vote-card bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 flex flex-col">
-                                    <div class="p-3 text-center flex-grow flex flex-col">
-                                        {{-- UBAH DI SINI: frame gambar jadi putih --}}
-                                        <div
-                                            class="h-20 flex items-center justify-center mb-2 bg-white rounded-lg shadow-md">
-                                            @if ($product->image)
-                                                <img src="{{ asset($product->image) }}"
-                                                    class="max-h-16 max-w-full object-contain">
-                                            @endif
-                                        </div>
-                                        <h3
-                                            class="text-xs font-semibold flex-grow flex items-center justify-center leading-tight">
-                                            {{ $product->name }}</h3>
+                                    class="vote-card bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 flex flex-col p-3">
+                                    <div class="h-24 w-full bg-white rounded-lg shadow-inner overflow-hidden mb-2">
+                                        @if ($product->image)
+                                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
+                                                class="w-full h-full object-cover">
+                                        @endif
                                     </div>
+                                    <h3
+                                        class="text-xs font-semibold flex-grow flex items-center justify-center leading-tight text-center">
+                                        {{ $product->name }}</h3>
                                 </div>
                             @endforeach
-                        </div>
-                    @endif
+                        @endif
+                    </div>
                 </div>
 
                 <div class="hidden md:block border-l-2 border-white/30"></div>
 
-                {{-- KOLOM KANAN (MOBILE) --}}
                 <div class="flex-1">
                     <h2 class="text-xl font-bold text-center mb-4">MOBILE</h2>
-                    @if ($mobileCategory && $mobileCategory->products->isNotEmpty())
-                        <div id="mobileGrid" class="grid grid-cols-3 grid-rows-4 gap-4">
+                    <div id="mobileGrid" class="grid grid-cols-3 gap-4">
+                        @if ($mobileCategory)
                             @foreach ($mobileCategory->products as $product)
                                 <div data-id="{{ $product->id }}" data-category="mobile"
-                                    class="vote-card bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 flex flex-col">
-                                    <div class="p-3 text-center flex-grow flex flex-col">
-                                        {{-- UBAH DI SINI: frame gambar jadi putih --}}
-                                        <div
-                                            class="h-20 flex items-center justify-center mb-2 bg-white rounded-lg shadow-md">
-                                            @if ($product->image)
-                                                <img src="{{ asset($product->image) }}"
-                                                    class="max-h-16 max-w-full object-contain">
-                                            @endif
-                                        </div>
-                                        <h3
-                                            class="text-xs font-semibold flex-grow flex items-center justify-center leading-tight">
-                                            {{ $product->name }}</h3>
+                                    class="vote-card bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 flex flex-col p-3">
+                                    <div class="h-24 w-full bg-white rounded-lg shadow-inner overflow-hidden mb-2">
+                                        @if ($product->image)
+                                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
+                                                class="w-full h-full object-cover">
+                                        @endif
                                     </div>
+                                    <h3
+                                        class="text-xs font-semibold flex-grow flex items-center justify-center leading-tight text-center">
+                                        {{ $product->name }}</h3>
                                 </div>
                             @endforeach
-                        </div>
-                    @endif
+                        @endif
+                    </div>
                 </div>
             </div>
 
-            <div class="mt-8 text-center">
+            <div class="mt-12 text-center">
                 <button id="finishVoteBtn"
                     class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-12 rounded-lg text-xl transition-all">
                     FINISH
@@ -166,13 +156,9 @@
                 <div
                     class="bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 p-8 md:p-12">
                     <h2 class="text-4xl font-black mb-4">THANK YOU</h2>
-                    <p class="text-lg mb-2">
-                        Thank you for your vote. Your Choice will shape the future of telkomsel
-                    </p>
-                    <p class="text-sm text-gray-300 mb-8">
-                        After Voting, kindly keep this page or take screenshot, as it will be required to redem
-                        your souvenir. Please note that souvenirs are limited
-                    </p>
+                    <p class="text-lg mb-2">Thank you for your vote. Your choice will shape the future of Telkomsel</p>
+                    <p class="text-sm text-gray-300 mb-8">After Voting, kindly keep this page or take a screenshot, as
+                        it will be required to redeem your souvenir. Please note that souvenirs are limited.</p>
                     <button onclick="window.location.href = '{{ route('voting.index') }}'"
                         class="w-full bg-white/90 hover:bg-white text-red-600 font-bold py-3 px-8 rounded-lg text-xl transition-colors">
                         Finish
@@ -188,10 +174,9 @@
             thankYouSection = document.getElementById("thankYouSection"),
             mainHeader = document.getElementById("mainHeader"),
             loginForm = document.getElementById("loginForm"),
-            finishVoteBtn = document.getElementById("finishVoteBtn");
-        // Remove fixedTokenCounter and mobileTokenCounter if no longer used for display
-        // or re-declare them if they exist in a hidden way
-
+            finishVoteBtn = document.getElementById("finishVoteBtn"),
+            fixedTokenCounter = document.getElementById("fixedTokenCounter"),
+            mobileTokenCounter = document.getElementById("mobileTokenCounter");
         let selectedFixed = [],
             selectedMobile = [];
 
@@ -210,15 +195,16 @@
                 });
                 return (await n.json()).exists
             } catch (o) {
-                return console.error("Gagal mengecek NIK:", o), !0
+                return console.error("Failed to check Employee ID:", o), !0
             }
         }
+
         document.addEventListener('DOMContentLoaded', async () => {
             const nikFromUrl = @json($nikFromUrl),
                 nameFromUrl = @json($nameFromUrl);
             if (nikFromUrl && nameFromUrl) {
                 Swal.fire({
-                    title: 'Memvalidasi link...',
+                    title: 'Validating link...',
                     background: '#374151',
                     color: '#FFFFFF',
                     allowOutsideClick: false,
@@ -232,8 +218,8 @@
                     loginSection.classList.add("hidden");
                     Swal.fire({
                         icon: 'warning',
-                        title: 'Link Sudah Digunakan',
-                        text: 'NIK yang terhubung dengan link ini sudah pernah digunakan untuk voting.',
+                        title: 'Link Already Used',
+                        text: 'The Employee ID associated with this link has already been used to vote.',
                         background: '#374151',
                         color: '#FFFFFF'
                     })
@@ -245,6 +231,7 @@
                 }
             }
         });
+
         loginForm.addEventListener("submit", async e => {
             e.preventDefault();
             const t = document.getElementById('fullName').value,
@@ -253,14 +240,14 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Nama dan NIK wajib diisi!',
+                    text: 'Full Name and Employee ID are required!',
                     background: '#374151',
                     color: '#FFFFFF'
                 });
                 return
             }
             Swal.fire({
-                title: 'Memeriksa NIK...',
+                title: 'Checking Employee ID...',
                 background: '#374151',
                 color: '#FFFFFF',
                 allowOutsideClick: false,
@@ -272,12 +259,13 @@
             Swal.close();
             o ? Swal.fire({
                 icon: 'error',
-                title: 'Akses Ditolak',
-                text: 'NIK ini sudah pernah digunakan untuk voting.',
+                title: 'Access Denied',
+                text: 'This Employee ID has already been used to vote.',
                 background: '#374151',
                 color: '#FFFFFF'
             }) : (loginSection.classList.add("hidden"), votingSection.classList.remove("hidden"))
         });
+
         document.querySelectorAll('.vote-card').forEach(card => {
             card.addEventListener('click', () => {
                 const id = card.dataset.id,
@@ -304,10 +292,8 @@
         });
 
         function updateUI() {
-            // Ini akan error karena fixedTokenCounter dan mobileTokenCounter tidak didefinisikan atau dihapus.
-            // Jika counter tidak lagi ditampilkan, bagian ini bisa dihapus atau di-comment.
-            // fixedTokenCounter.textContent = 5 - selectedFixed.length;
-            // mobileTokenCounter.textContent = 5 - selectedMobile.length;
+            fixedTokenCounter.textContent = 5 - selectedFixed.length;
+            mobileTokenCounter.textContent = 5 - selectedMobile.length;
             document.querySelectorAll('#fixedGrid .vote-card').forEach(c => {
                 if (selectedFixed.length >= 5 && !selectedFixed.includes(c.dataset.id)) c.classList.add('maxed');
                 else c.classList.remove('maxed')
@@ -317,13 +303,16 @@
                 else c.classList.remove('maxed')
             })
         }
+
         finishVoteBtn.addEventListener('click', async () => {
             const fixedNeeded = 5 - selectedFixed.length,
                 mobileNeeded = 5 - selectedMobile.length;
             if (fixedNeeded > 0 || mobileNeeded > 0) {
-                let errorMsg = 'Vote belum lengkap!\n\n';
-                if (fixedNeeded > 0) errorMsg += `- Anda kurang ${fixedNeeded} vote di kategori FIXED.\n`;
-                if (mobileNeeded > 0) errorMsg += `- Anda kurang ${mobileNeeded} vote di kategori MOBILE.`;
+                let errorMsg = 'Vote incomplete!\n\n';
+                if (fixedNeeded > 0) errorMsg +=
+                    `- You still need to cast ${fixedNeeded} vote(s) in the FIXED category.\n`;
+                if (mobileNeeded > 0) errorMsg +=
+                    `- You still need to cast ${mobileNeeded} vote(s) in the MOBILE category.`;
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -371,12 +360,12 @@
                     votingSection.classList.remove('hidden');
                     Swal.fire({
                         icon: 'error',
-                        title: 'Gagal Vote',
-                        text: result.message || 'Terjadi kesalahan.',
+                        title: 'Vote Failed',
+                        text: result.message || 'An error occurred.',
                         background: '#374151',
                         color: '#FFFFFF'
                     });
-                    if (result.message && result.message.includes('NIK')) {
+                    if (result.message && result.message.includes('Employee ID')) {
                         setTimeout(() => window.location.reload(), 2000)
                     }
                 }
@@ -387,7 +376,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Tidak dapat terhubung ke server.',
+                    text: 'Could not connect to the server.',
                     background: '#374151',
                     color: '#FFFFFF'
                 })
