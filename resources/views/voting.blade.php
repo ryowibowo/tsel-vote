@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -101,7 +101,6 @@
                             @foreach ($fixedCategory->products as $product)
                                 <div data-id="{{ $product->id }}" data-category="fixed"
                                     class="vote-card bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 flex flex-col p-3">
-                                    {{-- UBAH DI SINI: ganti bg-cover jadi bg-contain bg-no-repeat --}}
                                     <div class="h-24 w-full rounded-lg shadow-inner mb-2 bg-white bg-contain bg-center bg-no-repeat"
                                         @if ($product->image) style="background-image: url('{{ asset($product->image) }}')" @endif>
                                     </div>
@@ -123,7 +122,6 @@
                             @foreach ($mobileCategory->products as $product)
                                 <div data-id="{{ $product->id }}" data-category="mobile"
                                     class="vote-card bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 flex flex-col p-3">
-                                    {{-- UBAH DI SINI JUGA --}}
                                     <div class="h-24 w-full rounded-lg shadow-inner mb-2 bg-white bg-contain bg-center bg-no-repeat"
                                         @if ($product->image) style="background-image: url('{{ asset($product->image) }}')" @endif>
                                     </div>
@@ -147,7 +145,21 @@
 
         <section id="thankYouSection"
             class="hidden fixed inset-0 bg-red-900/50 backdrop-blur-sm flex items-center justify-center p-4">
-            {{-- Konten Thank You tidak berubah --}}
+            <div class="w-full max-w-xl mx-auto text-center">
+                <img src="{{ asset('img/main-logo.png') }}" alt="Traction Day"
+                    class="mx-auto w-64 md:w-80 h-auto mb-8">
+                <div
+                    class="bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 p-8 md:p-12">
+                    <h2 class="text-4xl font-black mb-4">THANK YOU</h2>
+                    <p class="text-lg mb-2">Thank you for your vote. Your choice will shape the future of Telkomsel</p>
+                    <p class="text-sm text-gray-300 mb-8">After Voting, kindly keep this page or take a screenshot, as
+                        it will be required to redeem your souvenir. Please note that souvenirs are limited.</p>
+                    <button onclick="window.location.href = '{{ route('voting.index') }}'"
+                        class="w-full bg-white/90 hover:bg-white text-red-600 font-bold py-3 px-8 rounded-lg text-xl transition-colors">
+                        Finish
+                    </button>
+                </div>
+            </div>
         </section>
     </main>
 
@@ -162,6 +174,7 @@
             mobileTokenCounter = document.getElementById("mobileTokenCounter");
         let selectedFixed = [],
             selectedMobile = [];
+
         async function checkNikAvailability(nik) {
             const t = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
             try {
@@ -180,6 +193,7 @@
                 return console.error("Failed to check Employee ID:", o), !0
             }
         }
+
         document.addEventListener('DOMContentLoaded', async () => {
             const nikFromUrl = @json($nikFromUrl),
                 nameFromUrl = @json($nameFromUrl);
@@ -212,6 +226,7 @@
                 }
             }
         });
+
         loginForm.addEventListener("submit", async e => {
             e.preventDefault();
             const t = document.getElementById('fullName').value,
@@ -245,6 +260,7 @@
                 color: '#FFFFFF'
             }) : (loginSection.classList.add("hidden"), votingSection.classList.remove("hidden"))
         });
+
         document.querySelectorAll('.vote-card').forEach(card => {
             card.addEventListener('click', () => {
                 const id = card.dataset.id,
@@ -271,12 +287,8 @@
         });
 
         function updateUI() {
-            if (document.getElementById("fixedTokenCounter")) {
-                document.getElementById("fixedTokenCounter").textContent = 5 - selectedFixed.length
-            }
-            if (document.getElementById("mobileTokenCounter")) {
-                document.getElementById("mobileTokenCounter").textContent = 5 - selectedMobile.length
-            }
+            fixedTokenCounter.textContent = 5 - selectedFixed.length;
+            mobileTokenCounter.textContent = 5 - selectedMobile.length;
             document.querySelectorAll('#fixedGrid .vote-card').forEach(c => {
                 if (selectedFixed.length >= 5 && !selectedFixed.includes(c.dataset.id)) c.classList.add('maxed');
                 else c.classList.remove('maxed')
@@ -286,6 +298,7 @@
                 else c.classList.remove('maxed')
             })
         }
+
         finishVoteBtn.addEventListener('click', async () => {
             const fixedNeeded = 5 - selectedFixed.length,
                 mobileNeeded = 5 - selectedMobile.length;
