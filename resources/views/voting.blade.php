@@ -94,20 +94,15 @@
         <section id="votingSection" class="hidden w-full max-w-7xl mx-auto mt-8">
             <div class="flex flex-col md:flex-row md:space-x-6">
 
-                {{-- KOLOM KIRI (FIXED) --}}
                 <div class="flex-1 mb-8 md:mb-0">
                     <h2 class="text-xl font-bold text-center mb-4">FIXED</h2>
                     @if ($fixedCategory && $fixedCategory->products->isNotEmpty())
-                        {{-- UBAH GRID: Tambah grid-rows-4 biar barisnya dipaksa sama --}}
-                        <div class="grid grid-cols-3 grid-rows-4 gap-4">
+                        <div id="fixedGrid" class="grid grid-cols-3 grid-rows-4 gap-4">
                             @foreach ($fixedCategory->products as $product)
                                 <div data-id="{{ $product->id }}" data-category="fixed"
                                     class="vote-card bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 flex flex-col p-3">
-                                    <div class="h-24 w-full bg-white rounded-lg shadow-inner overflow-hidden mb-2">
-                                        @if ($product->image)
-                                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
-                                                class="w-full h-full object-cover">
-                                        @endif
+                                    <div class="h-24 w-full rounded-lg shadow-inner mb-2 bg-white bg-cover bg-center"
+                                        @if ($product->image) style="background-image: url('{{ asset($product->image) }}')" @endif>
                                     </div>
                                     <h3
                                         class="text-xs font-semibold flex-grow flex items-center justify-center leading-tight text-center">
@@ -120,20 +115,15 @@
 
                 <div class="hidden md:block border-l-2 border-white/30"></div>
 
-                {{-- KOLOM KANAN (MOBILE) --}}
                 <div class="flex-1">
                     <h2 class="text-xl font-bold text-center mb-4">MOBILE</h2>
                     @if ($mobileCategory && $mobileCategory->products->isNotEmpty())
-                        {{-- UBAH GRID: Tambah grid-rows-4 di sini juga --}}
-                        <div class="grid grid-cols-3 grid-rows-4 gap-4">
+                        <div id="mobileGrid" class="grid grid-cols-3 grid-rows-4 gap-4">
                             @foreach ($mobileCategory->products as $product)
                                 <div data-id="{{ $product->id }}" data-category="mobile"
                                     class="vote-card bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 flex flex-col p-3">
-                                    <div class="h-24 w-full bg-white rounded-lg shadow-inner overflow-hidden mb-2">
-                                        @if ($product->image)
-                                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
-                                                class="w-full h-full object-cover">
-                                        @endif
+                                    <div class="h-24 w-full rounded-lg shadow-inner mb-2 bg-white bg-cover bg-center"
+                                        @if ($product->image) style="background-image: url('{{ asset($product->image) }}')" @endif>
                                     </div>
                                     <h3
                                         class="text-xs font-semibold flex-grow flex items-center justify-center leading-tight text-center">
@@ -155,7 +145,21 @@
 
         <section id="thankYouSection"
             class="hidden fixed inset-0 bg-red-900/50 backdrop-blur-sm flex items-center justify-center p-4">
-            {{-- Konten Thank You tidak berubah --}}
+            <div class="w-full max-w-xl mx-auto text-center">
+                <img src="{{ asset('img/main-logo.png') }}" alt="Traction Day"
+                    class="mx-auto w-64 md:w-80 h-auto mb-8">
+                <div
+                    class="bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 p-8 md:p-12">
+                    <h2 class="text-4xl font-black mb-4">THANK YOU</h2>
+                    <p class="text-lg mb-2">Thank you for your vote. Your choice will shape the future of Telkomsel</p>
+                    <p class="text-sm text-gray-300 mb-8">After Voting, kindly keep this page or take a screenshot, as
+                        it will be required to redeem your souvenir. Please note that souvenirs are limited.</p>
+                    <button onclick="window.location.href = '{{ route('voting.index') }}'"
+                        class="w-full bg-white/90 hover:bg-white text-red-600 font-bold py-3 px-8 rounded-lg text-xl transition-colors">
+                        Finish
+                    </button>
+                </div>
+            </div>
         </section>
     </main>
 
