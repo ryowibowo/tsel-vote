@@ -94,16 +94,20 @@
         <section id="votingSection" class="hidden w-full max-w-7xl mx-auto mt-8">
             <div class="flex flex-col md:flex-row md:space-x-6">
 
+                {{-- KOLOM KIRI (FIXED) --}}
                 <div class="flex-1 mb-8 md:mb-0">
                     <h2 class="text-xl font-bold text-center mb-4">FIXED</h2>
                     @if ($fixedCategory && $fixedCategory->products->isNotEmpty())
-                        <div id="fixedGrid" class="grid grid-cols-3 grid-rows-4 gap-4">
+                        {{-- UBAH GRID: Tambah grid-rows-4 biar barisnya dipaksa sama --}}
+                        <div class="grid grid-cols-3 grid-rows-4 gap-4">
                             @foreach ($fixedCategory->products as $product)
                                 <div data-id="{{ $product->id }}" data-category="fixed"
                                     class="vote-card bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 flex flex-col p-3">
-                                    {{-- UBAH DI SINI: ganti bg-cover jadi bg-contain bg-no-repeat --}}
-                                    <div class="h-24 w-full rounded-lg shadow-inner mb-2 bg-white bg-contain bg-center bg-no-repeat"
-                                        @if ($product->image) style="background-image: url('{{ asset($product->image) }}')" @endif>
+                                    <div class="h-24 w-full bg-white rounded-lg shadow-inner overflow-hidden mb-2">
+                                        @if ($product->image)
+                                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
+                                                class="w-full h-full object-cover">
+                                        @endif
                                     </div>
                                     <h3
                                         class="text-xs font-semibold flex-grow flex items-center justify-center leading-tight text-center">
@@ -116,16 +120,20 @@
 
                 <div class="hidden md:block border-l-2 border-white/30"></div>
 
+                {{-- KOLOM KANAN (MOBILE) --}}
                 <div class="flex-1">
                     <h2 class="text-xl font-bold text-center mb-4">MOBILE</h2>
                     @if ($mobileCategory && $mobileCategory->products->isNotEmpty())
-                        <div id="mobileGrid" class="grid grid-cols-3 grid-rows-4 gap-4">
+                        {{-- UBAH GRID: Tambah grid-rows-4 di sini juga --}}
+                        <div class="grid grid-cols-3 grid-rows-4 gap-4">
                             @foreach ($mobileCategory->products as $product)
                                 <div data-id="{{ $product->id }}" data-category="mobile"
                                     class="vote-card bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg text-white border border-white/20 flex flex-col p-3">
-                                    {{-- UBAH DI SINI JUGA --}}
-                                    <div class="h-24 w-full rounded-lg shadow-inner mb-2 bg-white bg-contain bg-center bg-no-repeat"
-                                        @if ($product->image) style="background-image: url('{{ asset($product->image) }}')" @endif>
+                                    <div class="h-24 w-full bg-white rounded-lg shadow-inner overflow-hidden mb-2">
+                                        @if ($product->image)
+                                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
+                                                class="w-full h-full object-cover">
+                                        @endif
                                     </div>
                                     <h3
                                         class="text-xs font-semibold flex-grow flex items-center justify-center leading-tight text-center">
